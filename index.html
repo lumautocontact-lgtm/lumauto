@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LumAuto — Automatisations pour artisans</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #1a1a2e; background: #fff; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .logo { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
+    .logo span { color: #e94560; }
+    header p {
+      font-size: 1.25rem;
+      margin-top: 16px;
+      opacity: 0.85;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .cta-btn {
+      display: inline-block;
+      margin-top: 32px;
+      background: #e94560;
+      color: white;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233,69,96,0.4); }
+
+    /* PROBLEME */
+    .section { padding: 70px 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 16px; text-align: center; }
+    .subtitle { text-align: center; color: #555; font-size: 1.05rem; margin-bottom: 48px; line-height: 1.6; }
+
+    .problems { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+    .problem-card {
+      background: #fff5f7;
+      border-left: 4px solid #e94560;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .problem-card .icon { font-size: 2rem; margin-bottom: 12px; }
+    .problem-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: #1a1a2e; }
+    .problem-card p { font-size: 0.9rem; color: #666; line-height: 1.5; }
+
+    /* SOLUTION */
+    .section-blue { background: #f0f4ff; }
+    .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+    .service-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+    .service-card .icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
+    .service-card p { font-size: 0.9rem; color: #666; line-height: 1.5; }
+
+    /* PRIX */
+    .pricing-card {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white;
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .pricing-card .badge {
+      background: #e94560;
+      color: white;
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    .price-main { font-size: 3rem; font-weight: 800; }
+    .price-sub { font-size: 1rem; opacity: 0.7; margin-top: 4px; margin-bottom: 32px; }
+    .price-monthly { font-size: 1.2rem; font-weight: 600; margin-bottom: 32px; opacity: 0.9; }
+    .features { list-style: none; text-align: left; }
+    .features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; }
+    .features li:before { content: "✅ "; }
+    .features li:last-child { border-bottom: none; }
+
+    /* TEMOIGNAGE */
+    .testimonial {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .testimonial blockquote {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .testimonial cite { font-weight: 700; color: #e94560; font-style: normal; }
+
+    /* CONTACT */
+    .section-dark { background: #1a1a2e; color: white; text-align: center; }
+    .section-dark h2 { color: white; }
+    .section-dark p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 32px; }
+    .contact-btn {
+      display: inline-block;
+      background: #e94560;
+      color: white;
+      padding: 18px 48px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .contact-btn:hover { transform: translateY(-2px); }
+    .contact-email { margin-top: 20px; opacity: 0.6; font-size: 0.9rem; }
+
+    /* FOOTER */
+    footer { background: #0f0f1a; color: rgba(255,255,255,0.4); text-align: center; padding: 24px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Lum<span>Auto</span></div>
+    <p>Automatisez l'administratif.<br>Concentrez-vous sur votre métier.</p>
+    <a href="mailto:lumauto.contact@gmail.com" class="cta-btn">Demander une démo gratuite</a>
+  </header>
+
+  <!-- PROBLEMES -->
+  <section class="section">
+    <div class="container">
+      <h2>Vous perdez des heures chaque semaine sur ces tâches ?</h2>
+      <p class="subtitle">Comme la plupart des artisans, vous jongglez entre le terrain et l'administratif — et c'est l'administratif qui prend le dessus.</p>
+      <div class="problems">
+        <div class="problem-card">
+          <div class="icon">📄</div>
+          <h3>Relancer les clients qui ne paient pas</h3>
+          <p>Vous passez du temps à vérifier qui a payé, rédiger des emails, relancer... encore et encore.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">🔧</div>
+          <h3>Rappeler les maintenances annuelles</h3>
+          <p>Vos clients doivent renouveler chaque année — mais sans rappel automatique, vous perdez ces contrats.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">📝</div>
+          <h3>Saisir manuellement vos factures</h3>
+          <p>Chaque nouvelle facture prend du temps à enregistrer et à suivre. Un travail répétitif qui ne rapporte rien.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="section section-blue">
+    <div class="container">
+      <h2>LumAuto automatise tout ça pour vous</h2>
+      <p class="subtitle">Vous vous concentrez sur votre métier. Moi je m'occupe du reste.</p>
+      <div class="services">
+        <div class="service-card">
+          <div class="icon">🔔</div>
+          <h3>Relances automatiques</h3>
+          <p>Email poli à 7 jours, ferme à 14 jours, urgent à 30 jours. Tout automatique. Vous ne touchez à rien.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">📅</div>
+          <h3>Rappels de maintenance</h3>
+          <p>Vos clients reçoivent un rappel automatique 30 jours avant l'échéance annuelle. Vous ne perdez plus aucun contrat.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">⚡</div>
+          <h3>Saisie en 30 secondes</h3>
+          <p>Un formulaire simple sur votre téléphone. Vous entrez la facture en 30 secondes — le système s'occupe du reste.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIX -->
+  <section class="section">
+    <div class="container">
+      <h2>Un investissement, pas une dépense</h2>
+      <p class="subtitle">Une seule facture récupérée grâce aux relances automatiques rembourse le setup.</p>
+      <div class="pricing-card">
+        <div class="badge">Pack Admin Auto</div>
+        <div class="price-main">150€</div>
+        <div class="price-sub">installation unique</div>
+        <div class="price-monthly">+ 30€ / mois (hébergement inclus)</div>
+        <ul class="features">
+          <li>Relances factures automatiques (3 niveaux)</li>
+          <li>Rappels maintenance annuelle (2 niveaux)</li>
+          <li>Formulaire de saisie rapide</li>
+          <li>Hébergement 24h/24, 7j/7</li>
+          <li>Installation et configuration incluses</li>
+          <li>Support par email</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMOIGNAGE -->
+  <section class="section section-blue">
+    <div class="container">
+      <h2>Ce qu'en dit un client</h2>
+      <p class="subtitle">Entreprise de sécurité incendie, Oise</p>
+      <div class="testimonial">
+        <blockquote>
+          "Je passais des heures à relancer mes clients et à me souvenir des maintenances à prévoir. Maintenant tout se fait automatiquement. Je reçois les emails de relance sans rien faire — et mes clients reçoivent leurs rappels avant même que j'y pense."
+        </blockquote>
+        <cite>— Gérant, entreprise de sécurité incendie (Oise)</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2>Intéressé ? On en parle 5 minutes.</h2>
+      <p>Je vous montre en démo comment ça fonctionne concrètement pour votre activité.</p>
+      <a href="mailto:lumauto.contact@gmail.com" class="contact-btn">Envoyer un email</a>
+      <div class="contact-email">lumauto.contact@gmail.com</div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 LumAuto — Automatisations pour artisans
+  </footer>
+
+</body>
+</html>
