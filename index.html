@@ -17,6 +17,7 @@
     }
     .logo { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
     .logo span { color: #e94560; }
+    .logo-svg { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 4px; }
     header p {
       font-size: 1.25rem;
       margin-top: 16px;
@@ -72,14 +73,18 @@
     .service-card p { font-size: 0.9rem; color: #666; line-height: 1.5; }
 
     /* PRIX */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px; }
     .pricing-card {
       background: linear-gradient(135deg, #1a1a2e, #0f3460);
       color: white;
       border-radius: 24px;
-      padding: 48px;
+      padding: 40px 32px;
       text-align: center;
-      max-width: 500px;
-      margin: 0 auto;
+      position: relative;
+    }
+    .pricing-card.soon {
+      opacity: 0.75;
+      filter: grayscale(20%);
     }
     .pricing-card .badge {
       background: #e94560;
@@ -89,15 +94,38 @@
       font-size: 0.85rem;
       font-weight: 700;
       display: inline-block;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
-    .price-main { font-size: 3rem; font-weight: 800; }
-    .price-sub { font-size: 1rem; opacity: 0.7; margin-top: 4px; margin-bottom: 32px; }
-    .price-monthly { font-size: 1.2rem; font-weight: 600; margin-bottom: 32px; opacity: 0.9; }
+    .pricing-card .badge-soon {
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.8);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .price-main { font-size: 2.8rem; font-weight: 800; }
+    .price-sub { font-size: 0.95rem; opacity: 0.7; margin-top: 4px; margin-bottom: 16px; }
+    .price-monthly { font-size: 1.1rem; font-weight: 600; margin-bottom: 28px; opacity: 0.9; }
     .features { list-style: none; text-align: left; }
-    .features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; }
+    .features li { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
     .features li:before { content: "✅ "; }
+    .features li.soon-item:before { content: "🔜 "; }
     .features li:last-child { border-bottom: none; }
+    .loyalty-banner {
+      background: linear-gradient(135deg, #e94560, #c73652);
+      color: white;
+      border-radius: 16px;
+      padding: 20px 32px;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .loyalty-banner span { font-size: 1.4rem; font-weight: 800; }
 
     /* TEMOIGNAGE */
     .testimonial {
@@ -144,7 +172,12 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo">Lum<span>Auto</span></div>
+    <div class="logo-svg">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="20,2 12,2 6,18 14,18 8,34 28,14 18,14" fill="#e94560"/>
+      </svg>
+      <div class="logo">Lum<span>Auto</span></div>
+    </div>
     <p>Automatisez l'administratif.<br>Concentrez-vous sur votre métier.</p>
     <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20voir%20une%20d%C3%A9mo." target="_blank" class="cta-btn">Demander une démo gratuite</a>
   </header>
@@ -204,20 +237,63 @@
     <div class="container">
       <h2>Un investissement, pas une dépense</h2>
       <p class="subtitle">Une seule facture récupérée grâce aux relances automatiques rembourse le setup.</p>
-      <div class="pricing-card">
-        <div class="badge">Pack Admin Auto</div>
-        <div class="price-main">150€</div>
-        <div class="price-sub">installation unique</div>
-        <div class="price-monthly">+ 30€ / mois (hébergement inclus)</div>
-        <ul class="features">
-          <li>Relances factures automatiques (3 niveaux)</li>
-          <li>Rappels maintenance annuelle (2 niveaux)</li>
-          <li>Formulaire de saisie rapide</li>
-          <li>Hébergement 24h/24, 7j/7</li>
-          <li>Installation et configuration incluses</li>
-          <li>Support par email</li>
-        </ul>
+
+      <div class="pricing-grid">
+
+        <!-- PACK 1 - DISPONIBLE -->
+        <div class="pricing-card">
+          <div class="badge">Pack Admin Auto</div>
+          <div class="price-main">150€</div>
+          <div class="price-sub">installation unique</div>
+          <div class="price-monthly">+ 30€ / mois (hébergement inclus)</div>
+          <ul class="features">
+            <li>Relances factures automatiques (3 niveaux)</li>
+            <li>Rappels maintenance annuelle (2 niveaux)</li>
+            <li>Formulaire de saisie rapide</li>
+            <li>Hébergement 24h/24, 7j/7</li>
+            <li>Installation et configuration incluses</li>
+            <li>Support par email</li>
+          </ul>
+        </div>
+
+        <!-- PACK 2 - BIENTÔT -->
+        <div class="pricing-card soon">
+          <div class="badge-soon">Bientôt disponible</div>
+          <div class="price-main">120€</div>
+          <div class="price-sub">installation unique</div>
+          <div class="price-monthly">+ 25€ / mois (hébergement inclus)</div>
+          <ul class="features">
+            <li class="soon-item">Pack Devis Auto</li>
+            <li>Génération de devis depuis votre téléphone</li>
+            <li>Envoi automatique au client par email</li>
+            <li>Suivi des devis en attente de réponse</li>
+            <li>Relance automatique si pas de réponse</li>
+            <li>Hébergement 24h/24, 7j/7</li>
+          </ul>
+        </div>
+
+        <!-- PACK 3 - BIENTÔT -->
+        <div class="pricing-card soon">
+          <div class="badge-soon">Bientôt disponible</div>
+          <div class="price-main">200€</div>
+          <div class="price-sub">installation unique</div>
+          <div class="price-monthly">+ 40€ / mois (hébergement inclus)</div>
+          <ul class="features">
+            <li class="soon-item">Pack Compta Light</li>
+            <li>Suivi automatique des dépenses</li>
+            <li>Rapport mensuel PDF envoyé par email</li>
+            <li>Alertes TVA et échéances fiscales</li>
+            <li>Tableau de bord chiffre d'affaires</li>
+            <li>Hébergement 24h/24, 7j/7</li>
+          </ul>
+        </div>
+
       </div>
+
+      <div class="loyalty-banner">
+        🎁 Fidélité LumAuto — Tout client Pack Admin Auto bénéficie de <span>-20€</span> sur le prochain pack
+      </div>
+
     </div>
   </section>
 
