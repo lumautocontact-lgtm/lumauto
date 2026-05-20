@@ -72,6 +72,59 @@
     .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
     .service-card p { font-size: 0.9rem; color: #666; line-height: 1.5; }
 
+    /* DEMO */
+    .demo-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+      position: relative;
+      margin-top: 16px;
+    }
+    .demo-step {
+      text-align: center;
+      padding: 32px 24px;
+      position: relative;
+    }
+    .demo-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.8rem;
+      color: #e94560;
+      font-weight: 900;
+      z-index: 1;
+    }
+    @media (max-width: 700px) {
+      .demo-step:not(:last-child)::after { display: none; }
+    }
+    .demo-number {
+      width: 52px;
+      height: 52px;
+      background: #e94560;
+      color: white;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .demo-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .demo-step h3 { font-size: 1rem; font-weight: 800; margin-bottom: 10px; color: #1a1a2e; }
+    .demo-step p { font-size: 0.88rem; color: #666; line-height: 1.55; }
+    .demo-cta {
+      text-align: center;
+      margin-top: 48px;
+    }
+    .demo-cta p {
+      font-size: 1.05rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
     /* PRIX */
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 16px; }
     .pricing-card {
@@ -178,42 +231,176 @@
     }
     .perso-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,26,46,0.3); }
 
-    /* TEMOIGNAGE */
+    /* TEMOIGNAGES */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
     .testimonial {
       background: white;
       border-radius: 16px;
-      padding: 40px;
+      padding: 32px 28px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      max-width: 650px;
-      margin: 0 auto;
-      text-align: center;
+      text-align: left;
     }
+    .testimonial-stars { color: #f5a623; font-size: 1.1rem; margin-bottom: 14px; letter-spacing: 2px; }
     .testimonial blockquote {
-      font-size: 1.1rem;
+      font-size: 0.98rem;
       font-style: italic;
       color: #333;
       line-height: 1.7;
       margin-bottom: 20px;
     }
-    .testimonial cite { font-weight: 700; color: #e94560; font-style: normal; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .testimonial-info { line-height: 1.4; }
+    .testimonial-info strong { font-size: 0.95rem; color: #1a1a2e; display: block; }
+    .testimonial-info span { font-size: 0.82rem; color: #888; }
+    .temoignage-cta {
+      text-align: center;
+      margin-top: 48px;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .temoignage-cta p { font-size: 1rem; color: #555; margin-bottom: 20px; }
 
-    /* CONTACT */
+    /* FAQ */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item {
+      border: 1.5px solid #e8eaf0;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .faq-item.open { box-shadow: 0 4px 16px rgba(233,69,96,0.1); border-color: #e94560; }
+    .faq-question {
+      padding: 20px 24px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+      background: white;
+      transition: background 0.2s;
+    }
+    .faq-item.open .faq-question { background: #fff5f7; color: #e94560; }
+    .faq-arrow {
+      font-size: 1.1rem;
+      color: #e94560;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 0.92rem;
+      color: #555;
+      line-height: 1.65;
+      background: white;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* CONTACT / FORMULAIRE */
     .section-dark { background: #1a1a2e; color: white; text-align: center; }
     .section-dark h2 { color: white; }
-    .section-dark p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 32px; }
+    .section-dark .subtitle { color: rgba(255,255,255,0.65); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      text-align: left;
+      margin-top: 16px;
+    }
+    @media (max-width: 680px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .contact-left h3 { font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 16px; }
+    .contact-left p { color: rgba(255,255,255,0.7); font-size: 0.95rem; line-height: 1.65; margin-bottom: 28px; }
+    .contact-info-item { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .contact-info-item .icon { font-size: 1.2rem; }
+    .contact-info-item span { color: rgba(255,255,255,0.75); font-size: 0.92rem; }
     .contact-btn {
       display: inline-block;
       background: #e94560;
       color: white;
-      padding: 18px 48px;
+      padding: 14px 36px;
       border-radius: 50px;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       text-decoration: none;
       transition: transform 0.2s;
+      margin-top: 8px;
     }
     .contact-btn:hover { transform: translateY(-2px); }
-    .contact-email { margin-top: 20px; opacity: 0.6; font-size: 0.9rem; }
+
+    /* BOOKING FORM */
+    .booking-form {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 32px 28px;
+    }
+    .booking-form h3 { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 6px; }
+    .booking-form .form-sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.83rem; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 0.92rem;
+      font-family: 'Segoe UI', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.35); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: #e94560; }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-group select option { background: #1a1a2e; color: white; }
+    .form-submit {
+      width: 100%;
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,69,96,0.4); }
 
     /* NAVBAR */
     nav {
@@ -230,13 +417,13 @@
     }
     .nav-logo { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; text-decoration: none; display: flex; align-items: center; gap: 8px; }
     .nav-logo span { color: #e94560; }
-    .nav-links { list-style: none; display: flex; gap: 8px; }
+    .nav-links { list-style: none; display: flex; gap: 4px; }
     .nav-links a {
       color: #1a1a2e;
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 50px;
       transition: background 0.2s, color 0.2s;
     }
@@ -246,9 +433,9 @@
       color: white !important;
     }
     .nav-cta:hover { background: #c73652 !important; color: white !important; }
-    @media (max-width: 600px) {
-      .nav-links { gap: 2px; }
-      .nav-links a { padding: 6px 8px; font-size: 0.78rem; }
+    @media (max-width: 700px) {
+      .nav-links { gap: 1px; }
+      .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
     }
 
     /* ABONNEMENTS */
@@ -287,10 +474,10 @@
     </a>
     <ul class="nav-links">
       <li><a href="#problemes">Problèmes</a></li>
-      <li><a href="#solutions">Solutions</a></li>
+      <li><a href="#demo">Comment ça marche</a></li>
       <li><a href="#packs">Nos packs</a></li>
-      <li><a href="#abonnements">Abonnements</a></li>
-      <li><a href="#contact" class="nav-cta">Contact</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nav-cta">Réserver une démo</a></li>
     </ul>
   </nav>
 
@@ -303,7 +490,7 @@
       <div class="logo">Lum<span>Auto</span></div>
     </div>
     <p>Automatisez l'administratif.<br>Concentrez-vous sur votre métier.</p>
-    <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20voir%20une%20d%C3%A9mo." target="_blank" class="cta-btn">Demander une démo gratuite</a>
+    <a href="#contact" class="cta-btn">Réserver une démo gratuite →</a>
   </header>
 
   <!-- PROBLEMES -->
@@ -356,8 +543,47 @@
     </div>
   </section>
 
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section" id="demo">
+    <div class="container">
+      <h2>Comment ça marche ?</h2>
+      <p class="subtitle">De la première démo à vos premières automatisations : 3 étapes simples, sans prise de tête technique.</p>
+
+      <div class="demo-steps">
+
+        <div class="demo-step">
+          <div class="demo-number">1</div>
+          <div class="demo-icon">📞</div>
+          <h3>On discute de votre activité</h3>
+          <p>On prend 15 minutes ensemble pour comprendre vos tâches répétitives — relances, maintenances, factures — et je vous montre une démo en direct sur votre cas concret.</p>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-number">2</div>
+          <div class="demo-icon">⚙️</div>
+          <h3>J'installe tout en 30 minutes</h3>
+          <p>Aucune installation de votre côté. Je configure les automatisations sur mon serveur, connectées à votre boîte mail. Vous n'avez besoin que d'un téléphone ou ordinateur.</p>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-number">3</div>
+          <div class="demo-icon">🚀</div>
+          <h3>LumAuto travaille pour vous</h3>
+          <p>Vos relances partent seules, vos clients reçoivent leurs rappels, vos factures se saisissent en 30 secondes. Vous récupérez vos soirées et vos week-ends.</p>
+        </div>
+
+      </div>
+
+      <div class="demo-cta">
+        <p>Curieux de voir concrètement ce que ça donne pour votre activité ?</p>
+        <a href="#contact" class="cta-btn" style="margin-top: 0;">Voir une démo gratuite →</a>
+      </div>
+
+    </div>
+  </section>
+
   <!-- PRIX -->
-  <section class="section" id="packs">
+  <section class="section section-blue" id="packs">
     <div class="container">
       <h2>Un investissement, pas une dépense</h2>
       <p class="subtitle">Une seule facture récupérée grâce aux relances automatiques rembourse le setup.</p>
@@ -468,16 +694,120 @@
     </div>
   </section>
 
-  <!-- TEMOIGNAGE -->
-  <section class="section section-blue">
+  <!-- TEMOIGNAGES -->
+  <section class="section section-blue" id="temoignages">
     <div class="container">
-      <h2>Ce qu'en dit un client</h2>
-      <p class="subtitle">Entreprise de sécurité incendie, Oise</p>
-      <div class="testimonial">
-        <blockquote>
-          "Je passais des heures à relancer mes clients et à me souvenir des maintenances à prévoir. Maintenant tout se fait automatiquement. Je reçois les emails de relance sans rien faire — et mes clients reçoivent leurs rappels avant même que j'y pense."
-        </blockquote>
-        <cite>— Gérant, entreprise de sécurité incendie (Oise)</cite>
+      <h2>Ce qu'en disent nos clients</h2>
+      <p class="subtitle">Des artisans comme vous, qui ont récupéré leur temps.</p>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote>
+            "Je passais des heures à relancer mes clients et à me souvenir des maintenances à prévoir. Maintenant tout se fait automatiquement. Je reçois les emails de relance sans rien faire — et mes clients reçoivent leurs rappels avant même que j'y pense."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">D.S</div>
+            <div class="testimonial-info">
+              <strong>D.S. — Gérant</strong>
+              <span>Sécurité incendie · Oise · 1 personne</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote>
+            "J'avais peur que ce soit compliqué à mettre en place, mais Mattys a tout configuré en une demi-heure. Depuis, mes rappels de contrats d'entretien partent tout seuls. J'ai récupéré au moins 3h par semaine."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">M.L</div>
+            <div class="testimonial-info">
+              <strong>M.L. — Artisan chauffagiste</strong>
+              <span>Chauffage · Nord · 2 personnes</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="temoignage-cta">
+        <p>Vous aussi, récupérez vos soirées et vos week-ends.</p>
+        <a href="#contact" class="cta-btn" style="margin-top: 0;">Réserver ma démo gratuite →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <h2>Questions fréquentes</h2>
+      <p class="subtitle">Les vraies questions que me posent les artisans — avec des réponses directes.</p>
+
+      <div class="faq-list">
+
+        <div class="faq-item open">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Combien de temps prend l'installation ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            L'installation complète prend environ 30 minutes. Je m'occupe de tout à distance — vous n'avez rien à installer, rien à configurer. Vous me donnez accès à votre boîte mail et c'est parti. Le lendemain matin, vos automatisations tournent déjà.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Je ne suis pas à l'aise avec la technologie — est-ce que c'est compliqué à utiliser ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            Non. De votre côté, vous n'utilisez qu'un formulaire sur votre téléphone — aussi simple qu'un texto. Vous entrez les informations, LumAuto fait le reste. Pas de logiciel à apprendre, pas de mot de passe à retenir, rien.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Que se passe-t-il si quelque chose tombe en panne ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            Je surveille les automatisations activement. En cas de problème, je suis joignable par email avec une réponse sous 48h (ou 24h en abonnement Pro). La grande majorité des pannes sont résolues sans que vous ayez à lever le petit doigt.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Mes données clients sont-elles en sécurité ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            Oui. Vos données restent dans votre propre Google Sheets — je n'en ai pas accès permanent. Les automatisations passent uniquement par votre adresse email, jamais par des serveurs tiers qui stockent vos données clients.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Est-ce que je m'engage sur la durée ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            Non. L'abonnement mensuel est sans engagement. Vous pouvez arrêter quand vous voulez. Le seul frais non remboursable est l'installation (150€ pour le Pack Admin Auto), car c'est du travail déjà réalisé — ce qui est juste de mon côté.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Est-ce vraiment rentable pour une petite structure ?
+            <span class="faq-arrow">▼</span>
+          </div>
+          <div class="faq-answer">
+            C'est fait pour ça. Une seule facture récupérée grâce à une relance automatique couvre souvent plusieurs mois d'abonnement. Et un contrat de maintenance annuelle que vous auriez oublié de relancer, c'est parfois 200 à 500€ que vous récupérez. LumAuto se rembourse rapidement.
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -485,16 +815,119 @@
   <!-- CONTACT -->
   <section class="section section-dark" id="contact">
     <div class="container">
-      <h2>Intéressé ? On en parle 5 minutes.</h2>
-      <p>Je vous montre en démo comment ça fonctionne concrètement pour votre activité.</p>
-      <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20voir%20une%20d%C3%A9mo." target="_blank" class="contact-btn">Envoyer un email</a>
-      <div class="contact-email">lumauto.contact@gmail.com</div>
+      <h2>Réservez votre démo gratuite</h2>
+      <p class="subtitle" style="margin-bottom: 40px;">15 minutes, sans engagement. Je vous montre concrètement ce que LumAuto peut faire pour vous.</p>
+
+      <div class="contact-grid">
+
+        <div class="contact-left">
+          <h3>Pourquoi réserver une démo ?</h3>
+          <p>Je vous montre en direct, sur votre cas concret, comment les relances et rappels fonctionnent. Vous repartez avec une idée précise du temps que vous allez gagner — et du temps que vous perdez en ce moment.</p>
+
+          <div class="contact-info-item">
+            <span class="icon">⏱️</span>
+            <span>15 minutes chrono, pas plus</span>
+          </div>
+          <div class="contact-info-item">
+            <span class="icon">🎯</span>
+            <span>Adapté à votre activité spécifique</span>
+          </div>
+          <div class="contact-info-item">
+            <span class="icon">💬</span>
+            <span>Sans jargon technique</span>
+          </div>
+          <div class="contact-info-item">
+            <span class="icon">✉️</span>
+            <span>lumauto.contact@gmail.com</span>
+          </div>
+
+          <br>
+          <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20voir%20une%20d%C3%A9mo." target="_blank" class="contact-btn">Envoyer un email directement</a>
+        </div>
+
+        <div class="booking-form">
+          <h3>📅 Demande de rendez-vous</h3>
+          <p class="form-sub">Remplissez le formulaire — je vous réponds dans la journée.</p>
+
+          <div class="form-group">
+            <label>Votre prénom *</label>
+            <input type="text" id="f-name" placeholder="Ex : Michel" />
+          </div>
+          <div class="form-group">
+            <label>Votre activité *</label>
+            <select id="f-activite">
+              <option value="">Sélectionnez votre métier...</option>
+              <option>Sécurité incendie</option>
+              <option>Chauffagiste / Plombier</option>
+              <option>Climatisation / PAC</option>
+              <option>Électricien</option>
+              <option>Portes automatiques / Sécurité</option>
+              <option>Autre artisan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Votre numéro de téléphone</label>
+            <input type="tel" id="f-phone" placeholder="06 XX XX XX XX" />
+          </div>
+          <div class="form-group">
+            <label>Ce que vous voulez automatiser (facultatif)</label>
+            <textarea id="f-message" placeholder="Ex : Je relance mes clients à la main pour les maintenances annuelles, ça me prend trop de temps..."></textarea>
+          </div>
+
+          <button class="form-submit" onclick="sendBooking()">Envoyer ma demande →</button>
+        </div>
+
+      </div>
     </div>
   </section>
 
   <footer>
     © 2026 LumAuto — Automatisations pour artisans
   </footer>
+
+  <script>
+    // FAQ Accordion
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Booking form → Gmail compose URL
+    function sendBooking() {
+      const name = document.getElementById('f-name').value.trim();
+      const activite = document.getElementById('f-activite').value;
+      const phone = document.getElementById('f-phone').value.trim();
+      const message = document.getElementById('f-message').value.trim();
+
+      if (!name) { alert('Merci d\'entrer votre prénom.'); return; }
+      if (!activite) { alert('Merci de sélectionner votre activité.'); return; }
+
+      const subject = encodeURIComponent('Demande de démo LumAuto — ' + name);
+      let body = 'Bonjour Mattys,\n\n';
+      body += 'Je souhaite réserver une démo LumAuto.\n\n';
+      body += 'Prénom : ' + name + '\n';
+      body += 'Activité : ' + activite + '\n';
+      if (phone) body += 'Téléphone : ' + phone + '\n';
+      if (message) body += '\nMon besoin :\n' + message + '\n';
+      body += '\nCordialement,\n' + name;
+
+      const url = 'https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=' + subject + '&body=' + encodeURIComponent(body);
+      window.open(url, '_blank');
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
