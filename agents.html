@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agents IA — LumAuto</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #1a1a2e; background: #fff; }
+
+    nav {
+      position: sticky; top: 0; z-index: 999; background: white;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08); padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .nav-logo span { color: #e94560; }
+    .nav-links { list-style: none; display: flex; gap: 4px; align-items: center; }
+    .nav-links a { color: #1a1a2e; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 7px 12px; border-radius: 50px; transition: background 0.2s; }
+    .nav-links a:hover { background: #fff5f7; color: #e94560; }
+    .nav-current { background: #f0f4ff; color: #3949ab !important; }
+    .nav-cta { background: #e94560 !important; color: white !important; }
+    .nav-cta:hover { background: #c73652 !important; color: white !important; }
+
+    /* HEADER */
+    .agents-header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white; padding: 80px 20px 60px; text-align: center;
+    }
+    .agents-header-tag {
+      display: inline-block; background: rgba(89,100,233,0.25); border: 1px solid rgba(89,100,233,0.4);
+      color: #9fa8f7; font-size: 0.82rem; font-weight: 700; padding: 5px 16px;
+      border-radius: 50px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .agents-header h1 { font-size: 2.4rem; font-weight: 900; margin-bottom: 16px; }
+    .agents-header p { font-size: 1.05rem; opacity: 0.75; max-width: 560px; margin: 0 auto; line-height: 1.65; }
+
+    /* STATUS SUMMARY BAR */
+    .status-bar { background: #f8f9ff; border-bottom: 1px solid #eaeeff; padding: 18px 20px; }
+    .status-bar-inner { max-width: 900px; margin: 0 auto; display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+    .status-bar-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+    .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .status-dot.green { background: #4caf50; }
+    .status-dot.orange { background: #ff9800; animation: pulse 1.5s infinite; }
+    .status-dot.blue { background: #5c6bc0; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .status-bar-item strong { font-weight: 700; }
+    .status-bar-item span { color: #888; }
+
+    /* SECTIONS */
+    .section { padding: 64px 20px; }
+    .section-alt { background: #f8f9ff; }
+    .container { max-width: 960px; margin: 0 auto; }
+    h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+    .section-desc { color: #666; font-size: 0.95rem; margin-bottom: 40px; margin-top: 4px; }
+
+    /* AGENT CARDS DETAIL */
+    .agent-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .agent-detail-card {
+      background: white; border-radius: 20px; padding: 36px 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07); border: 1.5px solid #eee;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .agent-detail-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12); transform: translateY(-2px); }
+    .agent-status-pill {
+      display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px;
+      border-radius: 50px; font-size: 0.75rem; font-weight: 700; margin-bottom: 20px;
+    }
+    .agent-status-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .pill-available { background: #e8f5e9; color: #2e7d32; }
+    .pill-available::before { background: #4caf50; }
+    .pill-maintenance { background: #fff3e0; color: #e65100; }
+    .pill-maintenance::before { background: #ff9800; animation: pulse 1.5s infinite; }
+    .pill-soon { background: #e8eaf6; color: #3949ab; }
+    .pill-soon::before { background: #5c6bc0; }
+    .agent-detail-icon { font-size: 2.8rem; margin-bottom: 14px; }
+    .agent-detail-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; color: #1a1a2e; }
+    .agent-detail-card .desc { font-size: 0.9rem; color: #555; line-height: 1.6; margin-bottom: 20px; }
+    .agent-how { background: #f8f9ff; border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; }
+    .agent-how-title { font-size: 0.75rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .agent-how-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .agent-flow-step { font-size: 0.78rem; font-weight: 600; color: #555; background: white; border: 1px solid #ddd; padding: 4px 10px; border-radius: 20px; }
+    .agent-flow-arrow { color: #e94560; font-size: 0.8rem; }
+    .agent-packs-section { margin-top: 14px; }
+    .agent-packs-title { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .agent-pack-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .agent-pack-tag { background: #f0f4ff; color: #3949ab; font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 50px; }
+    .agent-arrival { font-size: 0.82rem; color: #5c6bc0; font-weight: 600; margin-top: 14px; }
+
+    /* MAINTENANCE SECTION */
+    .maintenance-empty {
+      background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 16px;
+      padding: 28px 32px; text-align: center; color: #2e7d32;
+    }
+    .maintenance-empty .icon { font-size: 2rem; margin-bottom: 10px; }
+    .maintenance-empty p { font-weight: 600; font-size: 1rem; }
+    .maintenance-empty small { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; display: block; }
+
+    /* CTA BOTTOM */
+    .agents-cta-section { background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 64px 20px; text-align: center; }
+    .agents-cta-section h2 { color: white; font-size: 1.8rem; margin-bottom: 16px; }
+    .agents-cta-section p { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 500px; margin: 0 auto 32px; line-height: 1.6; }
+    .cta-btn { display: inline-block; background: #e94560; color: white; padding: 16px 40px; border-radius: 50px; font-size: 1rem; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
+    .cta-btn:hover { transform: translateY(-2px); }
+    .cta-btn-secondary { display: inline-block; margin-left: 16px; border: 2px solid rgba(255,255,255,0.3); color: white; padding: 14px 32px; border-radius: 50px; font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: background 0.2s; }
+    .cta-btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    footer { background: #0f0f1a; color: rgba(255,255,255,0.4); text-align: center; padding: 24px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <svg width="20" height="20" viewBox="0 0 36 36" fill="none"><polygon points="20,2 12,2 6,18 14,18 8,34 28,14 18,14" fill="#e94560"/></svg>
+      Lum<span>Auto</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="agents.html" class="nav-current">Nos agents IA</a></li>
+      <li><a href="index.html#packs">Packs</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Réserver une démo</a></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="agents-header">
+    <div class="agents-header-tag">Catalogue complet</div>
+    <h1>Nos agents IA</h1>
+    <p>Chaque agent est une automatisation indépendante. Disponibles à la carte ou regroupés dans des packs avantageux.</p>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="status-bar-inner">
+      <div class="status-bar-item">
+        <div class="status-dot green"></div>
+        <strong>3 agents disponibles</strong>
+        <span>en production</span>
+      </div>
+      <div class="status-bar-item">
+        <div class="status-dot orange"></div>
+        <strong>0 en maintenance</strong>
+        <span>tout fonctionne</span>
+      </div>
+      <div class="status-bar-item">
+        <div class="status-dot blue"></div>
+        <strong>2 en développement</strong>
+        <span>bientôt disponibles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENTS DISPONIBLES -->
+  <section class="section" id="disponibles">
+    <div class="container">
+      <h2><span style="color:#4caf50">●</span> Agents disponibles</h2>
+      <p class="section-desc">Ces agents sont opérationnels et peuvent être installés chez vous dès aujourd'hui.</p>
+
+      <div class="agent-detail-grid">
+
+        <!-- AGENT 1 - RELANCES -->
+        <div class="agent-detail-card">
+          <div class="agent-status-pill pill-available">● Disponible</div>
+          <div class="agent-detail-icon">🔔</div>
+          <h3>Agent Relances Factures</h3>
+          <p class="desc">Surveille vos factures impayées et envoie automatiquement des emails de relance — polis mais fermes — à 7, 14 et 30 jours après l'échéance. Vous ne touchez à rien.</p>
+
+          <div class="agent-how">
+            <div class="agent-how-title">Comment ça fonctionne</div>
+            <div class="agent-how-flow">
+              <span class="agent-flow-step">📱 Saisie facture</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📊 Google Sheets</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">⚙️ n8n</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📧 Gmail</span>
+            </div>
+          </div>
+
+          <div class="agent-packs-section">
+            <div class="agent-packs-title">Inclus dans</div>
+            <div class="agent-pack-tags">
+              <span class="agent-pack-tag">Pack Admin Auto</span>
+              <span class="agent-pack-tag">Pack Complet</span>
+              <span class="agent-pack-tag">À la carte — 80€ + 15€/mois</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGENT 2 - RAPPELS -->
+        <div class="agent-detail-card">
+          <div class="agent-status-pill pill-available">● Disponible</div>
+          <div class="agent-detail-icon">📅</div>
+          <h3>Agent Rappels Maintenance</h3>
+          <p class="desc">Envoie automatiquement un rappel à vos clients 30 jours puis 7 jours avant l'anniversaire de leur contrat d'entretien. Vous ne perdez plus aucun renouvellement.</p>
+
+          <div class="agent-how">
+            <div class="agent-how-title">Comment ça fonctionne</div>
+            <div class="agent-how-flow">
+              <span class="agent-flow-step">📊 Google Sheets</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">⚙️ n8n (J-30, J-7)</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📧 Gmail client</span>
+            </div>
+          </div>
+
+          <div class="agent-packs-section">
+            <div class="agent-packs-title">Inclus dans</div>
+            <div class="agent-pack-tags">
+              <span class="agent-pack-tag">Pack Admin Auto</span>
+              <span class="agent-pack-tag">Pack Complet</span>
+              <span class="agent-pack-tag">À la carte — 80€ + 15€/mois</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGENT 3 - SAISIE -->
+        <div class="agent-detail-card">
+          <div class="agent-status-pill pill-available">● Disponible</div>
+          <div class="agent-detail-icon">⚡</div>
+          <h3>Agent Saisie Rapide</h3>
+          <p class="desc">Un formulaire sur votre téléphone. En 30 secondes, votre facture est enregistrée dans Google Sheets, catégorisée et prête à être relancée si le client ne paie pas.</p>
+
+          <div class="agent-how">
+            <div class="agent-how-title">Comment ça fonctionne</div>
+            <div class="agent-how-flow">
+              <span class="agent-flow-step">📱 Google Forms</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">⚙️ n8n</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📊 Tableau de bord</span>
+            </div>
+          </div>
+
+          <div class="agent-packs-section">
+            <div class="agent-packs-title">Inclus dans</div>
+            <div class="agent-pack-tags">
+              <span class="agent-pack-tag">Pack Admin Auto</span>
+              <span class="agent-pack-tag">Pack Complet</span>
+              <span class="agent-pack-tag">À la carte — 60€ + 10€/mois</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EN MAINTENANCE -->
+  <section class="section section-alt" id="maintenance">
+    <div class="container">
+      <h2><span style="color:#ff9800">●</span> En maintenance</h2>
+      <p class="section-desc">Agents temporairement indisponibles pour mise à jour ou correction.</p>
+
+      <div class="maintenance-empty">
+        <div class="icon">✅</div>
+        <p>Aucun agent en maintenance actuellement</p>
+        <small>Tous les systèmes fonctionnent normalement</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIENTÔT -->
+  <section class="section" id="bientot">
+    <div class="container">
+      <h2><span style="color:#5c6bc0">●</span> Bientôt disponibles</h2>
+      <p class="section-desc">Ces agents sont en cours de développement. Inscrivez-vous pour être prévenu à leur sortie.</p>
+
+      <div class="agent-detail-grid">
+
+        <!-- AGENT DEVIS AUTO -->
+        <div class="agent-detail-card" style="border-color:#e8eaf6">
+          <div class="agent-status-pill pill-soon">🔜 En développement · T3 2026</div>
+          <div class="agent-detail-icon">📋</div>
+          <h3>Agent Devis Auto</h3>
+          <p class="desc">Générez un devis depuis votre téléphone, envoyez-le automatiquement au client par email, et recevez une alerte si il ne répond pas sous 5 jours. Plus aucun devis oublié.</p>
+
+          <div class="agent-how">
+            <div class="agent-how-title">Fonctionnement prévu</div>
+            <div class="agent-how-flow">
+              <span class="agent-flow-step">📱 Infos client</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">⚙️ Génération devis</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📧 Envoi + relance</span>
+            </div>
+          </div>
+
+          <div class="agent-packs-section">
+            <div class="agent-packs-title">Prévu dans</div>
+            <div class="agent-pack-tags">
+              <span class="agent-pack-tag">Pack Devis Auto</span>
+              <span class="agent-pack-tag">Pack Complet</span>
+            </div>
+          </div>
+          <div class="agent-arrival">📅 Arrivée prévue : T3 2026</div>
+        </div>
+
+        <!-- AGENT COMPTA LIGHT -->
+        <div class="agent-detail-card" style="border-color:#e8eaf6">
+          <div class="agent-status-pill pill-soon">🔜 En développement · T4 2026</div>
+          <div class="agent-detail-icon">📊</div>
+          <h3>Agent Compta Light</h3>
+          <p class="desc">Suit automatiquement vos dépenses et entrées, génère un rapport mensuel PDF envoyé par email avec votre chiffre d'affaires, vos alertes TVA et vos échéances fiscales.</p>
+
+          <div class="agent-how">
+            <div class="agent-how-title">Fonctionnement prévu</div>
+            <div class="agent-how-flow">
+              <span class="agent-flow-step">📊 Saisies dépenses</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">⚙️ Calculs auto</span>
+              <span class="agent-flow-arrow">→</span>
+              <span class="agent-flow-step">📄 Rapport PDF/mois</span>
+            </div>
+          </div>
+
+          <div class="agent-packs-section">
+            <div class="agent-packs-title">Prévu dans</div>
+            <div class="agent-pack-tags">
+              <span class="agent-pack-tag">Pack Compta Light</span>
+            </div>
+          </div>
+          <div class="agent-arrival">📅 Arrivée prévue : T4 2026</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="agents-cta-section">
+    <h2>Prêt à automatiser ?</h2>
+    <p>Les 3 agents disponibles s'installent en 30 minutes. Démo gratuite, sans engagement.</p>
+    <a href="index.html#contact" class="cta-btn">Réserver une démo gratuite →</a>
+    <a href="index.html#configurateur" class="cta-btn-secondary">Configurer mon pack</a>
+  </div>
+
+  <footer>
+    © 2026 LumAuto — Automatisations pour artisans &nbsp;·&nbsp; <a href="index.html" style="color:rgba(255,255,255,0.4);text-decoration:none">Retour à l'accueil</a>
+  </footer>
+
+</body>
+</html>
