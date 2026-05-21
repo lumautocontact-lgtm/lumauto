@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — LumAuto</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f2f8; color: #1a1a2e; min-height: 100vh; }
+
+    .topbar {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: white; padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .topbar-logo { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .topbar-logo span { color: #e94560; }
+    .topbar-client { font-size: 0.78rem; opacity: 0.6; margin-top: 2px; }
+    .live-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(76,175,80,0.2); border: 1px solid rgba(76,175,80,0.4);
+      color: #a5d6a7; font-size: 0.75rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 50px;
+    }
+    .live-dot { width: 7px; height: 7px; background: #4caf50; border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+    .welcome { margin-bottom: 24px; }
+    .welcome h1 { font-size: 1.4rem; font-weight: 800; }
+    .welcome p { color: #888; font-size: 0.85rem; margin-top: 4px; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+    @media (max-width: 680px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card { background: white; border-radius: 16px; padding: 20px 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .stat-icon { font-size: 1.4rem; margin-bottom: 10px; }
+    .stat-value { font-size: 1.8rem; font-weight: 900; color: #1a1a2e; }
+    .stat-label { font-size: 0.78rem; color: #888; margin-top: 2px; font-weight: 600; }
+    .stat-card.urgent .stat-value { color: #e94560; }
+    .stat-card.good .stat-value { color: #4caf50; }
+
+    .section-title { font-size: 1rem; font-weight: 800; margin-bottom: 14px; }
+    .agents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+    @media (max-width: 600px) { .agents-grid { grid-template-columns: 1fr; } }
+    .agent-card {
+      background: white; border-radius: 16px; padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border-left: 4px solid #4caf50;
+    }
+    .agent-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .agent-name { font-size: 0.9rem; font-weight: 700; margin-top: 4px; }
+    .agent-emoji { font-size: 1.4rem; }
+    .agent-status { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
+    .agent-status.on { background: rgba(76,175,80,0.12); color: #388e3c; }
+    .agent-stat { font-size: 1.4rem; font-weight: 900; color: #1a1a2e; }
+    .agent-stat-label { font-size: 0.75rem; color: #888; margin-top: 2px; }
+    .agent-last { font-size: 0.72rem; color: #aaa; margin-top: 10px; }
+
+    .card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .card-title { font-size: 0.95rem; font-weight: 800; }
+    .card-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
+    .badge-red { background: rgba(233,69,96,0.1); color: #e94560; }
+    .badge-green { background: rgba(76,175,80,0.1); color: #388e3c; }
+    .badge-blue { background: rgba(57,73,171,0.1); color: #3949ab; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 0.75rem; color: #aaa; font-weight: 700; text-transform: uppercase; padding: 0 0 12px; letter-spacing: 0.5px; }
+    td { padding: 12px 0; font-size: 0.86rem; border-top: 1px solid #f0f0f0; vertical-align: middle; }
+    tr:first-child td { border-top: none; }
+    .status-pill { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; }
+    .pill-orange { background: rgba(255,152,0,0.12); color: #e65100; }
+    .pill-red { background: rgba(233,69,96,0.1); color: #e94560; }
+    .pill-green { background: rgba(76,175,80,0.12); color: #388e3c; }
+    .pill-blue { background: rgba(57,73,171,0.1); color: #3949ab; }
+
+    @media (max-width: 600px) { .hide-mobile { display: none; } }
+
+    .empty-state { text-align: center; padding: 32px; color: #bbb; font-size: 0.88rem; }
+    .empty-state div { font-size: 2rem; margin-bottom: 8px; }
+
+    .loading { text-align: center; padding: 48px; color: #aaa; font-size: 0.9rem; }
+    .loading div { font-size: 2rem; margin-bottom: 12px; animation: spin 1s linear infinite; display: inline-block; }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+    .dashboard-footer { text-align: center; color: #bbb; font-size: 0.78rem; padding: 24px 0 8px; }
+    .dashboard-footer a { color: #e94560; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-logo">
+        <svg width="18" height="18" viewBox="0 0 36 36" fill="none"><polygon points="20,2 12,2 6,18 14,18 8,34 28,14 18,14" fill="#e94560"/></svg>
+        Lum<span>Auto</span>
+      </div>
+      <div class="topbar-client" id="client-name">Chargement...</div>
+    </div>
+    <div class="live-badge"><div class="live-dot"></div>En direct</div>
+  </div>
+
+  <div class="page">
+    <div class="welcome">
+      <h1>Bonjour 👋</h1>
+      <p id="last-update">Chargement des données...</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card urgent">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-value" id="stat-urgentes">—</div>
+        <div class="stat-label">Factures à relancer</div>
+      </div>
+      <div class="stat-card good">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="stat-relances">—</div>
+        <div class="stat-label">Relances envoyées</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-value" id="stat-maintenance">—</div>
+        <div class="stat-label">Rappels maintenance</div>
+      </div>
+      <div class="stat-card good">
+        <div class="stat-icon">💶</div>
+        <div class="stat-value" id="stat-montant">—</div>
+        <div class="stat-label">En cours (€)</div>
+      </div>
+    </div>
+
+    <div class="section-title">⚡ Vos agents IA</div>
+    <div class="agents-grid">
+      <div class="agent-card">
+        <div class="agent-card-top">
+          <div><div class="agent-emoji">🔔</div><div class="agent-name">Relances Factures</div></div>
+          <div class="agent-status on">● Actif</div>
+        </div>
+        <div class="agent-stat" id="agent-relances-count">—</div>
+        <div class="agent-stat-label">factures suivies</div>
+        <div class="agent-last" id="agent-relances-last">Chargement...</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-card-top">
+          <div><div class="agent-emoji">📅</div><div class="agent-name">Rappels Maintenance</div></div>
+          <div class="agent-status on">● Actif</div>
+        </div>
+        <div class="agent-stat" id="agent-maintenance-count">—</div>
+        <div class="agent-stat-label">clients suivis</div>
+        <div class="agent-last" id="agent-maintenance-last">Chargement...</div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-card-top">
+          <div><div class="agent-emoji">⚡</div><div class="agent-name">Saisie Rapide</div></div>
+          <div class="agent-status on">● Actif</div>
+        </div>
+        <div class="agent-stat" id="agent-saisie-count">—</div>
+        <div class="agent-stat-label">factures saisies</div>
+        <div class="agent-last">Via formulaire mobile</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📋 Factures en attente de relance</div>
+        <div class="card-badge badge-red" id="badge-factures">—</div>
+      </div>
+      <div id="table-factures"><div class="loading"><div>⏳</div>Chargement...</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">🔧 Prochains rappels maintenance</div>
+        <div class="card-badge badge-blue" id="badge-maintenance">—</div>
+      </div>
+      <div id="table-maintenance"><div class="loading"><div>⏳</div>Chargement...</div></div>
+    </div>
+
+    <div class="dashboard-footer">
+      Propulsé par <a href="index.html">LumAuto</a> · lumauto.contact@gmail.com
+    </div>
+  </div>
+
+  <script>
+    const CSV_FACTURES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-X_UU_I_IuhTo4fFtLEhaDWFAHSPxf2CvSGtKGF4-_4zcHw-QG56bctKsuNR582TC6r_tasg3tVB/pub?gid=0&single=true&output=csv';
+    const CSV_MAINTENANCE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7-X_UU_I_IuhTo4fFtLEhaDWFAHSPxf2CvSGtKGF4-_4zcHw-QG56bctKsuNR582TC6r_tasg3tVB/pub?gid=2135158113&single=true&output=csv';
+
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+      return lines.slice(1).map(line => {
+        const values = [];
+        let current = '', inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          if (line[i] === '"') { inQuotes = !inQuotes; }
+          else if (line[i] === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
+          else { current += line[i]; }
+        }
+        values.push(current.trim());
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = values[i] || '');
+        return obj;
+      }).filter(row => row[headers[0]]);
+    }
+
+    function today() { return new Date(); }
+    function parseDate(str) {
+      if (!str) return null;
+      const parts = str.split('/');
+      if (parts.length === 3) return new Date(parts[2], parts[1]-1, parts[0]);
+      return new Date(str);
+    }
+    function formatDate(str) { return str || '—'; }
+    function daysDiff(dateStr) {
+      const d = parseDate(dateStr);
+      if (!d) return null;
+      return Math.round((d - today()) / (1000*60*60*24));
+    }
+
+    function statusPill(statut, nbRelances) {
+      const n = parseInt(nbRelances) || 0;
+      if (!statut || statut === '') return `<span class="status-pill pill-blue">En attente</span>`;
+      if (statut.toLowerCase().includes('payé') || statut.toLowerCase().includes('paye')) return `<span class="status-pill pill-green">Payée</span>`;
+      if (n >= 3) return `<span class="status-pill pill-red">30j+</span>`;
+      if (n >= 2) return `<span class="status-pill pill-orange">14j</span>`;
+      if (n >= 1) return `<span class="status-pill pill-blue">7j</span>`;
+      return `<span class="status-pill pill-blue">En attente</span>`;
+    }
+
+    function maintenancePill(dateStr) {
+      const diff = daysDiff(dateStr);
+      if (diff === null) return `<span class="status-pill pill-blue">—</span>`;
+      if (diff < 0) return `<span class="status-pill pill-red">En retard</span>`;
+      if (diff <= 7) return `<span class="status-pill pill-red">Dans ${diff}j</span>`;
+      if (diff <= 14) return `<span class="status-pill pill-orange">Dans ${diff}j</span>`;
+      if (diff <= 30) return `<span class="status-pill pill-blue">Dans ${diff}j</span>`;
+      return `<span class="status-pill pill-green">Dans ${diff}j</span>`;
+    }
+
+    const DEMO_FACTURES = [
+      {'Nom Client':'Martin HVAC','Montant (€)':'1200','Date Facture':'01/04/2026','Statut':'En attente','Nombre de Relances':'3'},
+      {'Nom Client':'Eco Solutions 31','Montant (€)':'850','Date Facture':'20/04/2026','Statut':'En attente','Nombre de Relances':'2'},
+      {'Nom Client':'Thermique Nord','Montant (€)':'2150','Date Facture':'05/05/2026','Statut':'En attente','Nombre de Relances':'1'},
+    ];
+    const DEMO_MAINTENANCE = [
+      {'Nom Client':'Dupont PAC','Type Matériel':'Pompe à chaleur','Date Prochain Rappel':'24/05/2026','Statut Rappel':'En attente'},
+      {'Nom Client':'Résidence Les Pins','Type Matériel':'Climatisation','Date Prochain Rappel':'30/05/2026','Statut Rappel':'En attente'},
+    ];
+
+    async function loadData() {
+      const now = new Date();
+      document.getElementById('last-update').textContent = `Mis à jour le ${now.toLocaleDateString('fr-FR')} à ${now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'})}`;
+
+      // FACTURES
+      try {
+        let rows;
+        try {
+          const res = await fetch(CSV_FACTURES);
+          const text = await res.text();
+          rows = parseCSV(text);
+        } catch(e) { rows = DEMO_FACTURES; document.getElementById('last-update').textContent = '⚠️ Mode démo — données réelles disponibles sur GitHub Pages'; }
+
+        const enAttente = rows.filter(r => !r['Statut']?.toLowerCase().includes('payé') && !r['Statut']?.toLowerCase().includes('paye'));
+        const totalRelances = rows.reduce((s, r) => s + (parseInt(r['Nombre de Relances']) || 0), 0);
+        const totalMontant = enAttente.reduce((s, r) => s + (parseFloat(r['Montant (€)']?.replace(',', '.')) || 0), 0);
+
+        document.getElementById('stat-urgentes').textContent = enAttente.length;
+        document.getElementById('stat-relances').textContent = totalRelances;
+        document.getElementById('stat-montant').textContent = totalMontant > 0 ? totalMontant.toLocaleString('fr-FR') + '€' : '0€';
+        document.getElementById('agent-relances-count').textContent = rows.length;
+        document.getElementById('agent-relances-last').textContent = `${enAttente.length} facture(s) en attente`;
+        document.getElementById('agent-saisie-count').textContent = rows.length;
+        document.getElementById('badge-factures').textContent = enAttente.length + ' en attente';
+        document.getElementById('client-name').textContent = 'Tableau de bord — LumAuto';
+
+        if (enAttente.length === 0) {
+          document.getElementById('table-factures').innerHTML = '<div class="empty-state"><div>🎉</div>Aucune facture en attente — tout est à jour !</div>';
+        } else {
+          let html = `<table><thead><tr><th>Client</th><th class="hide-mobile">Montant</th><th class="hide-mobile">Date facture</th><th>Statut</th><th>Relances</th></tr></thead><tbody>`;
+          enAttente.forEach(r => {
+            html += `<tr>
+              <td><strong>${r['Nom Client'] || '—'}</strong></td>
+              <td class="hide-mobile">${r['Montant (€)'] ? r['Montant (€)'] + '€' : '—'}</td>
+              <td class="hide-mobile">${formatDate(r['Date Facture'])}</td>
+              <td>${statusPill(r['Statut'], r['Nombre de Relances'])}</td>
+              <td>${r['Nombre de Relances'] || '0'} envoyée(s)</td>
+            </tr>`;
+          });
+          html += `</tbody></table>`;
+          document.getElementById('table-factures').innerHTML = html;
+        }
+      } catch(e) {
+        document.getElementById('table-factures').innerHTML = '<div class="empty-state"><div>⚠️</div>Erreur de chargement</div>';
+      }
+
+      // MAINTENANCE
+      try {
+        let rows;
+        try {
+          const res = await fetch(CSV_MAINTENANCE);
+          const text = await res.text();
+          rows = parseCSV(text);
+        } catch(e) { rows = DEMO_MAINTENANCE; }
+
+        const upcoming = rows.filter(r => {
+          const diff = daysDiff(r['Date Prochain Rappel']);
+          return diff !== null && diff <= 30 && r['Statut Rappel'] !== 'Rappel envoyé';
+        });
+
+        document.getElementById('stat-maintenance').textContent = upcoming.length;
+        document.getElementById('agent-maintenance-count').textContent = rows.length;
+        document.getElementById('agent-maintenance-last').textContent = `${upcoming.length} rappel(s) dans les 30j`;
+        document.getElementById('badge-maintenance').textContent = upcoming.length + ' à venir';
+
+        if (upcoming.length === 0) {
+          document.getElementById('table-maintenance').innerHTML = '<div class="empty-state"><div>✅</div>Aucun rappel à envoyer dans les 30 prochains jours</div>';
+        } else {
+          let html = `<table><thead><tr><th>Client</th><th class="hide-mobile">Équipement</th><th>Date rappel</th><th>Statut</th></tr></thead><tbody>`;
+          upcoming.forEach(r => {
+            html += `<tr>
+              <td><strong>${r['Nom Client'] || '—'}</strong></td>
+              <td class="hide-mobile">${r['Type Matériel'] || '—'}</td>
+              <td>${formatDate(r['Date Prochain Rappel'])}</td>
+              <td>${maintenancePill(r['Date Prochain Rappel'])}</td>
+            </tr>`;
+          });
+          html += `</tbody></table>`;
+          document.getElementById('table-maintenance').innerHTML = html;
+        }
+      } catch(e) {
+        document.getElementById('table-maintenance').innerHTML = '<div class="empty-state"><div>⚠️</div>Erreur de chargement</div>';
+      }
+    }
+
+    loadData();
+  </script>
+
+</body>
+</html>
