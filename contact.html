@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — LumAuto</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #1a1a2e; background: #f8f9fa; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 999;
+      background: white; box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      padding: 0 24px; display: flex; align-items: center;
+      justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .nav-logo span { color: #e94560; }
+    .nav-links { list-style: none; display: flex; gap: 4px; align-items: center; }
+    .nav-links a {
+      color: #1a1a2e; text-decoration: none; font-size: 0.84rem; font-weight: 600;
+      padding: 7px 11px; border-radius: 50px; transition: background 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { background: #fff5f7; color: #e94560; }
+    .nav-current { background: #fff5f7 !important; color: #e94560 !important; }
+    .nav-agents { border: 1.5px solid #1a1a2e !important; }
+    .nav-agents:hover { background: #1a1a2e !important; color: white !important; }
+    .nav-cta { background: #e94560 !important; color: white !important; }
+    .nav-cta:hover { background: #c73652 !important; color: white !important; }
+    @media (max-width: 750px) {
+      .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
+    }
+
+    /* ── HERO ── */
+    .contact-hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: white; padding: 60px 20px 50px; text-align: center;
+    }
+    .contact-hero h1 { font-size: 2rem; font-weight: 900; margin-bottom: 12px; }
+    .contact-hero h1 span { color: #e94560; }
+    .contact-hero p { font-size: 1.05rem; opacity: 0.8; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+    /* ── MAIN CONTENT ── */
+    .contact-main {
+      max-width: 900px; margin: 0 auto; padding: 48px 20px 80px;
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: start;
+    }
+    @media (max-width: 700px) { .contact-main { grid-template-columns: 1fr; } }
+
+    /* ── LEFT PANEL ── */
+    .contact-info { background: white; border-radius: 20px; padding: 36px 32px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .contact-info h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; color: #1a1a2e; }
+    .info-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+    }
+    .info-item:last-of-type { border-bottom: none; }
+    .info-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .info-label { font-size: 0.78rem; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .info-value { font-size: 0.92rem; font-weight: 600; color: #1a1a2e; }
+    .info-value a { color: #e94560; text-decoration: none; }
+    .info-value a:hover { text-decoration: underline; }
+
+    .demo-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .demo-tag {
+      background: #fff5f7; color: #e94560; font-size: 0.78rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(233,69,96,0.2);
+    }
+
+    .direct-mail-btn {
+      display: block; margin-top: 24px; background: #1a1a2e; color: white;
+      padding: 13px 20px; border-radius: 12px; text-align: center; text-decoration: none;
+      font-size: 0.9rem; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .direct-mail-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,26,46,0.25); }
+
+    /* ── FORM PANEL ── */
+    .contact-form-card { background: white; border-radius: 20px; padding: 36px 32px; box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .contact-form-card h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+    .form-sub { font-size: 0.88rem; color: #888; margin-bottom: 28px; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: #555; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px; border: 1.5px solid #e8eaf0; border-radius: 10px;
+      font-size: 0.9rem; font-family: inherit; color: #1a1a2e; background: #fafafa;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #e94560; box-shadow: 0 0 0 3px rgba(233,69,96,0.1); background: white;
+    }
+    .form-group textarea { height: 110px; resize: vertical; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-submit {
+      width: 100%; padding: 15px; background: #e94560; color: white; border: none;
+      border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s; font-family: inherit; margin-top: 6px;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233,69,96,0.4); }
+
+    .success-msg {
+      display: none; background: #e8f5e9; border: 1.5px solid #81c784; border-radius: 12px;
+      padding: 16px 20px; margin-top: 16px; text-align: center;
+      font-size: 0.92rem; font-weight: 600; color: #2e7d32;
+    }
+
+    /* ── BOTTOM STRIP ── */
+    .bottom-strip { background: #fff5f7; border-top: 1px solid rgba(233,69,96,0.15); padding: 32px 20px; text-align: center; }
+    .bottom-strip p { font-size: 0.9rem; color: #666; margin-bottom: 12px; }
+    .strip-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .strip-links a { color: #e94560; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+    .strip-links a:hover { text-decoration: underline; }
+
+    footer {
+      background: #1a1a2e; color: rgba(255,255,255,0.5); font-size: 0.82rem;
+      padding: 18px 20px; text-align: center;
+    }
+    footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    footer a:hover { color: white; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <svg width="20" height="20" viewBox="0 0 36 36" fill="none"><polygon points="20,2 12,2 6,18 14,18 8,34 28,14 18,14" fill="#e94560"/></svg>
+      Lum<span>Auto</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="agents.html" class="nav-agents">Nos agents IA</a></li>
+      <li><a href="tarifs.html">Tarifs</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+      <li><a href="contact.html" class="nav-cta nav-current">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="contact-hero">
+    <h1>Réservez votre <span>démo gratuite</span></h1>
+    <p>15 minutes pour voir concrètement ce que LumAuto peut faire pour vous. Sans engagement.</p>
+  </div>
+
+  <div class="contact-main">
+
+    <!-- LEFT: Info -->
+    <div class="contact-info">
+      <h2>Pourquoi réserver une démo ?</h2>
+
+      <div class="info-item">
+        <div class="info-icon">⏱️</div>
+        <div>
+          <div class="info-label">Durée</div>
+          <div class="info-value">15 minutes, pas plus</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🎯</div>
+        <div>
+          <div class="info-label">Format</div>
+          <div class="info-value">En visio ou par téléphone, adapté à votre activité</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">💡</div>
+        <div>
+          <div class="info-label">Ce que vous verrez</div>
+          <div class="info-value">Une relance automatique en direct, votre tableau de bord personnalisé</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">✉️</div>
+        <div>
+          <div class="info-label">Email direct</div>
+          <div class="info-value"><a href="mailto:lumauto.contact@gmail.com">lumauto.contact@gmail.com</a></div>
+        </div>
+      </div>
+
+      <div class="demo-tags">
+        <span class="demo-tag">✅ 100% gratuit</span>
+        <span class="demo-tag">✅ Sans engagement</span>
+        <span class="demo-tag">✅ Réponse sous 24h</span>
+      </div>
+
+      <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20r%C3%A9server%20une%20d%C3%A9mo." target="_blank" class="direct-mail-btn">
+        📧 Écrire directement par email
+      </a>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="contact-form-card">
+      <h2>📅 Demandez un rendez-vous</h2>
+      <p class="form-sub">Remplissez le formulaire — je vous réponds dans la journée.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom *</label>
+          <input type="text" id="f-name" placeholder="Michel" />
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" id="f-phone" placeholder="06 XX XX XX XX" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Votre activité *</label>
+        <select id="f-activite">
+          <option value="">Sélectionnez votre métier...</option>
+          <option>Sécurité incendie</option>
+          <option>Chauffagiste / Plombier</option>
+          <option>Climatisation / PAC</option>
+          <option>Électricien</option>
+          <option>Alarme / Vidéosurveillance</option>
+          <option>Portes automatiques / Sécurité</option>
+          <option>Autre artisan / TPE</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Ce que vous voulez automatiser</label>
+        <textarea id="f-message" placeholder="Ex : Je relance mes clients à la main pour les maintenances annuelles, ça me prend du temps…"></textarea>
+      </div>
+
+      <button class="form-submit" onclick="sendContact()">Envoyer ma demande →</button>
+
+      <div class="success-msg" id="success-msg">
+        ✅ Votre demande a été ouverte dans Gmail. Envoyez l'email pour confirmer !
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-strip">
+    <p>Vous voulez d'abord en savoir plus sur nos automatisations ?</p>
+    <div class="strip-links">
+      <a href="agents.html">→ Voir nos agents IA</a>
+      <a href="tarifs.html">→ Voir les tarifs</a>
+      <a href="dashboard.html">→ Voir le tableau de bord</a>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 LumAuto — Automatisations pour artisans &nbsp;·&nbsp;
+    <a href="index.html">Accueil</a> &nbsp;·&nbsp;
+    <a href="agents.html">Agents IA</a> &nbsp;·&nbsp;
+    <a href="tarifs.html">Tarifs</a> &nbsp;·&nbsp;
+    <a href="contact.html">Contact</a>
+  </footer>
+
+  <script>
+    function sendContact() {
+      const name = document.getElementById('f-name').value.trim();
+      const activite = document.getElementById('f-activite').value;
+      const phone = document.getElementById('f-phone').value.trim();
+      const message = document.getElementById('f-message').value.trim();
+      if (!name) { alert('Merci d\'entrer votre prénom.'); return; }
+      if (!activite) { alert('Merci de sélectionner votre activité.'); return; }
+      let body = 'Bonjour Mattys,\n\nJe souhaite réserver une démo LumAuto.\n\n';
+      body += 'Prénom : ' + name + '\nActivité : ' + activite + '\n';
+      if (phone) body += 'Téléphone : ' + phone + '\n';
+      if (message) body += '\nMon besoin :\n' + message + '\n';
+      body += '\nCordialement,\n' + name;
+      window.open(
+        'https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su='
+        + encodeURIComponent('Demande de démo LumAuto — ' + name)
+        + '&body=' + encodeURIComponent(body),
+        '_blank'
+      );
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
