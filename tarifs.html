@@ -256,13 +256,13 @@
             <div class="config-agent-price">60€ setup<br>+15€/mois</div>
           </div>
 
-          <div class="config-agent disabled-agent">
-            <div class="config-checkbox"></div>
+          <div class="config-agent" id="ca-devis" onclick="toggleConfigAgent('devis')">
+            <div class="config-checkbox" id="cb-devis"></div>
             <div class="config-agent-info">
-              <div class="config-agent-name">📋 Agent Devis Auto <span style="font-size:0.72rem;color:#bbb;font-weight:400">— Bientôt</span></div>
-              <div class="config-agent-desc">Non disponible pour l'instant</div>
+              <div class="config-agent-name">📋 Agent Devis Auto</div>
+              <div class="config-agent-desc">Devis PDF professionnel en 30 secondes</div>
             </div>
-            <div class="config-agent-price" style="color:#ccc">80€ setup<br>+15€/mois</div>
+            <div class="config-agent-price">80€ setup<br>+15€/mois</div>
           </div>
 
         </div>
@@ -322,8 +322,7 @@
           <a href="contact.html" target="_blank" class="order-btn">Commander ce pack</a>
         </div>
 
-        <div class="pricing-card soon">
-          <div class="badge-soon">Bientôt disponible</div>
+        <div class="pricing-card">
           <div class="pack-agents">
             <span class="pack-agent-tag">📋 Devis Auto</span>
             <span class="pack-agent-tag">🔔 Relances</span>
@@ -332,18 +331,16 @@
           <div class="price-sub">installation unique</div>
           <div class="price-monthly">+ 25€ / mois (hébergement inclus)</div>
           <ul class="features">
-            <li class="soon-item">Pack Devis Auto</li>
             <li>Génération de devis depuis votre téléphone</li>
             <li>Envoi automatique au client par email</li>
             <li>Suivi des devis en attente de réponse</li>
             <li>Relance automatique si pas de réponse</li>
             <li>Hébergement 24h/24, 7j/7</li>
           </ul>
-          <a href="contact.html" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
+          <a href="contact.html" class="order-btn">Commander ce pack</a>
         </div>
 
-        <div class="pricing-card soon">
-          <div class="badge-soon">Bientôt disponible</div>
+        <div class="pricing-card">
           <div class="pack-agents">
             <span class="pack-agent-tag">🔔 Relances</span>
             <span class="pack-agent-tag">📅 Maintenance</span>
@@ -361,7 +358,7 @@
             <li>Hébergement 24h/24, 7j/7</li>
             <li>Priorité sur les nouvelles fonctions</li>
           </ul>
-          <a href="contact.html" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
+          <a href="contact.html" class="order-btn">Commander ce pack</a>
         </div>
 
       </div>
@@ -467,7 +464,8 @@
     const agentPrices = {
       relances: { setup: 80, monthly: 20, name: "Agent Relances Factures" },
       rappels:  { setup: 80, monthly: 20, name: "Agent Rappels Maintenance" },
-      saisie:   { setup: 60, monthly: 15, name: "Agent Saisie Rapide" }
+      saisie:   { setup: 60, monthly: 15, name: "Agent Saisie Rapide" },
+      devis:    { setup: 80, monthly: 15, name: "Agent Devis Auto" }
     };
     const selectedAgents = new Set();
 
