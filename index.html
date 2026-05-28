@@ -27,6 +27,22 @@
     .nav-agents:hover { background: #1a1a2e !important; color: white !important; }
     .nav-cta { background: #e94560 !important; color: white !important; }
     .nav-cta:hover { background: #c73652 !important; color: white !important; }
+
+    /* ── CART BUTTON IN NAV ── */
+    .cart-nav-btn {
+      position: relative; background: #1a1a2e; color: white;
+      padding: 8px 16px; border-radius: 50px; font-size: 0.84rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: background 0.2s; text-decoration: none;
+    }
+    .cart-nav-btn:hover { background: #e94560; }
+    .cart-badge {
+      background: #e94560; color: white; font-size: 0.7rem; font-weight: 800;
+      width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; position: absolute; top: -4px; right: -4px;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .cart-badge.visible { opacity: 1; }
     @media (max-width: 750px) {
       .nav-links a { padding: 5px 7px; font-size: 0.72rem; }
     }
@@ -144,6 +160,13 @@
     .agent-packs { margin-top: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
     .agent-pack-tag { background: #f0f4ff; color: #3949ab; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 50px; }
     .agents-cta { text-align: center; margin-top: 40px; }
+    .agent-add-btn {
+      margin-top: 16px; width: 100%; padding: 9px 16px; background: #e94560; color: white;
+      border: none; border-radius: 8px; font-size: 0.84rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background 0.2s;
+    }
+    .agent-add-btn:hover { background: #c73652; }
+    .agent-add-btn.added { background: #1a1a2e; }
     .btn-outline {
       display: inline-block; border: 2px solid #1a1a2e; color: #1a1a2e; padding: 12px 32px;
       border-radius: 50px; font-size: 0.95rem; font-weight: 700; text-decoration: none;
@@ -340,10 +363,14 @@
     <ul class="nav-links">
       <li><a href="index.html" class="nav-current">Accueil</a></li>
       <li><a href="agents.html" class="nav-agents">Nos agents IA</a></li>
-      <li><a href="tarifs.html">Tarifs</a></li>
+      <li><a href="tarifs.html">Abonnement</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
+    <a href="panier.html" class="cart-nav-btn">
+      🛒 Panier
+      <span class="cart-badge" id="nav-badge">0</span>
+    </a>
   </nav>
 
   <!-- HEADER -->
@@ -423,6 +450,21 @@
           <h3>Saisir manuellement vos factures</h3>
           <p>Chaque nouvelle facture prend du temps à enregistrer et à suivre. Un travail répétitif qui ne rapporte rien.</p>
         </div>
+        <div class="problem-card">
+          <div class="icon">📋</div>
+          <h3>Faire des devis à la main</h3>
+          <p>Rédiger un devis, l'envoyer, puis relancer si pas de réponse... tout ça vous prend des heures chaque semaine.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">📊</div>
+          <h3>Suivre vos dépenses et votre CA</h3>
+          <p>Vous ne savez pas toujours où vous en êtes financièrement — et la compta ça attend toujours le week-end.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">📱</div>
+          <h3>Répondre aux prospects en retard</h3>
+          <p>Un prospect qui attend une réponse plus de 24h, c'est souvent un client perdu. Difficile à gérer seul sur le terrain.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -436,17 +478,32 @@
         <div class="service-card">
           <div class="icon">🔔</div>
           <h3>Relances automatiques</h3>
-          <p>Email poli à 7 jours, ferme à 14 jours, urgent à 30 jours. Tout automatique. Vous ne touchez à rien.</p>
+          <p>Email poli à J+7, ferme à J+14, urgent à J+30. Tout automatique. Vous ne touchez à rien — l'agent s'arrête dès que le client paie.</p>
         </div>
         <div class="service-card">
           <div class="icon">📅</div>
           <h3>Rappels de maintenance</h3>
-          <p>Vos clients reçoivent un rappel automatique 30 jours avant l'échéance annuelle. Vous ne perdez plus aucun contrat.</p>
+          <p>Vos clients reçoivent un rappel 30 jours et 7 jours avant leur maintenance annuelle. Zéro oubli, zéro contrat perdu.</p>
         </div>
         <div class="service-card">
           <div class="icon">⚡</div>
-          <h3>Saisie en 30 secondes</h3>
-          <p>Un formulaire simple sur votre téléphone. Vous entrez la facture en 30 secondes — le système s'occupe du reste.</p>
+          <h3>Factures en 30 secondes</h3>
+          <p>Un formulaire sur votre téléphone, en déplacement. La facture est créée, envoyée et archivée automatiquement.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">📋</div>
+          <h3>Devis professionnels auto</h3>
+          <p>Dictez les infos, le devis PDF est généré avec votre logo et envoyé au client. Relance automatique si pas de réponse.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">📊</div>
+          <h3>Tableau de bord en temps réel</h3>
+          <p>Vos factures, relances, maintenances à venir et CA — tout en un coup d'œil sur votre téléphone ou ordinateur.</p>
+        </div>
+        <div class="service-card">
+          <div class="icon">🚀</div>
+          <h3>Réponse prospect automatique</h3>
+          <p>Dès qu'un prospect remplit votre formulaire, il reçoit un message de confirmation immédiat. Vous ne perdez plus aucune opportunité.</p>
         </div>
       </div>
     </div>
@@ -491,47 +548,52 @@
       <p class="subtitle">Chaque automatisation est un agent indépendant. Choisissez ceux dont vous avez besoin.</p>
       <div class="agents-grid">
 
-        <div class="agent-card">
+        <div class="agent-card" id="ac-relances">
           <div class="agent-status available">● Disponible</div>
           <div class="agent-card-icon">🔔</div>
           <h3>Agent Relances Factures</h3>
           <p>Surveille vos factures impayées et envoie des relances automatiques à 7, 14 et 30 jours après échéance.</p>
           <div class="agent-packs">
-            <span class="agent-pack-tag">Pack Admin Auto</span>
-            <span class="agent-pack-tag">Pack Complet</span>
+            <span class="agent-pack-tag">80€ installation</span>
+            <span class="agent-pack-tag">+ 20€/mois</span>
           </div>
+          <button class="agent-add-btn" id="ab-relances" onclick="quickAdd('relances','Agent Relances Factures',80,20,this)">🛒 Ajouter au panier</button>
         </div>
 
-        <div class="agent-card">
+        <div class="agent-card" id="ac-rappels">
           <div class="agent-status available">● Disponible</div>
           <div class="agent-card-icon">📅</div>
           <h3>Agent Rappels Maintenance</h3>
           <p>Rappelle vos clients 30 jours et 7 jours avant l'anniversaire de leur contrat d'entretien annuel.</p>
           <div class="agent-packs">
-            <span class="agent-pack-tag">Pack Admin Auto</span>
-            <span class="agent-pack-tag">Pack Complet</span>
+            <span class="agent-pack-tag">80€ installation</span>
+            <span class="agent-pack-tag">+ 20€/mois</span>
           </div>
+          <button class="agent-add-btn" id="ab-rappels" onclick="quickAdd('rappels','Agent Rappels Maintenance',80,20,this)">🛒 Ajouter au panier</button>
         </div>
 
-        <div class="agent-card">
+        <div class="agent-card" id="ac-saisie">
           <div class="agent-status available">● Disponible</div>
           <div class="agent-card-icon">⚡</div>
           <h3>Agent Saisie Rapide</h3>
           <p>Enregistrez une facture en 30 secondes depuis votre téléphone. Le tableau de suivi se met à jour seul.</p>
           <div class="agent-packs">
-            <span class="agent-pack-tag">Pack Admin Auto</span>
-            <span class="agent-pack-tag">Pack Complet</span>
+            <span class="agent-pack-tag">60€ installation</span>
+            <span class="agent-pack-tag">+ 15€/mois</span>
           </div>
+          <button class="agent-add-btn" id="ab-saisie" onclick="quickAdd('saisie','Agent Saisie Rapide',60,15,this)">🛒 Ajouter au panier</button>
         </div>
 
-        <div class="agent-card soon">
-          <div class="agent-status soon-badge">🔜 Bientôt</div>
+        <div class="agent-card" id="ac-devis">
+          <div class="agent-status available">● Disponible</div>
           <div class="agent-card-icon">📋</div>
           <h3>Agent Devis Auto</h3>
           <p>Générez et envoyez un devis depuis votre téléphone. Relance automatique si le client ne répond pas.</p>
           <div class="agent-packs">
-            <span class="agent-pack-tag">Pack Devis Auto</span>
+            <span class="agent-pack-tag">80€ installation</span>
+            <span class="agent-pack-tag">+ 15€/mois</span>
           </div>
+          <button class="agent-add-btn" id="ab-devis" onclick="quickAdd('devis','Agent Devis Auto',80,15,this)">🛒 Ajouter au panier</button>
         </div>
 
         <div class="agent-card soon">
@@ -540,7 +602,7 @@
           <h3>Agent Compta Light</h3>
           <p>Suit vos dépenses automatiquement et génère un rapport mensuel PDF avec votre chiffre d'affaires.</p>
           <div class="agent-packs">
-            <span class="agent-pack-tag">Pack Compta Light</span>
+            <span class="agent-pack-tag">Bientôt disponible</span>
           </div>
         </div>
 
@@ -572,9 +634,9 @@
           <div class="testimonial-stars">★★★★★</div>
           <blockquote>"Je passais des heures à relancer mes clients et à me souvenir des maintenances à prévoir. Maintenant tout se fait automatiquement. Je reçois les emails de relance sans rien faire — et mes clients reçoivent leurs rappels avant même que j'y pense."</blockquote>
           <div class="testimonial-author">
-            <div class="testimonial-avatar">D.S</div>
+            <div class="testimonial-avatar">D.S.I</div>
             <div class="testimonial-info">
-              <strong>D.S. — Gérant</strong>
+              <strong>D.S.I. — Gérant</strong>
               <span>Sécurité incendie · Oise · 1 personne</span>
             </div>
           </div>
@@ -635,55 +697,6 @@
           <div class="faq-answer">C'est fait pour ça. Une seule facture récupérée grâce à une relance couvre souvent plusieurs mois d'abonnement. Et un contrat de maintenance oublié, c'est 200 à 500€ que vous récupérez. LumAuto coûte 1€ par jour — c'est moins qu'une heure de votre temps perdu sur l'admin.</div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section section-dark" id="contact">
-    <div class="container">
-      <h2>Réservez votre démo gratuite</h2>
-      <p class="subtitle" style="margin-bottom:40px">15 minutes, sans engagement. Je vous montre concrètement ce que LumAuto peut faire pour vous.</p>
-      <div class="contact-grid">
-        <div class="contact-left">
-          <h3>Pourquoi réserver une démo ?</h3>
-          <p>Je vous montre en direct, sur votre cas concret, comment les relances et rappels fonctionnent. Vous repartez avec une idée précise du temps que vous allez gagner.</p>
-          <div class="contact-info-item"><span class="icon">⏱️</span><span>15 minutes chrono, pas plus</span></div>
-          <div class="contact-info-item"><span class="icon">🎯</span><span>Adapté à votre activité spécifique</span></div>
-          <div class="contact-info-item"><span class="icon">💬</span><span>Sans jargon technique</span></div>
-          <div class="contact-info-item"><span class="icon">✉️</span><span>lumauto.contact@gmail.com</span></div>
-          <br>
-          <a href="contact.html" target="_blank" class="contact-btn">Envoyer un email directement</a>
-        </div>
-        <div class="booking-form">
-          <h3>📅 Demande de rendez-vous</h3>
-          <p class="form-sub">Remplissez le formulaire — je vous réponds dans la journée.</p>
-          <div class="form-group">
-            <label>Votre prénom *</label>
-            <input type="text" id="f-name" placeholder="Ex : Michel" />
-          </div>
-          <div class="form-group">
-            <label>Votre activité *</label>
-            <select id="f-activite">
-              <option value="">Sélectionnez votre métier...</option>
-              <option>Sécurité incendie</option>
-              <option>Chauffagiste / Plombier</option>
-              <option>Climatisation / PAC</option>
-              <option>Électricien</option>
-              <option>Portes automatiques / Sécurité</option>
-              <option>Autre artisan</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Votre numéro de téléphone</label>
-            <input type="tel" id="f-phone" placeholder="06 XX XX XX XX" />
-          </div>
-          <div class="form-group">
-            <label>Ce que vous voulez automatiser (facultatif)</label>
-            <textarea id="f-message" placeholder="Ex : Je relance mes clients à la main pour les maintenances annuelles, ça me prend trop de temps..."></textarea>
-          </div>
-          <button class="form-submit" onclick="sendBooking()">Envoyer ma demande →</button>
-        </div>
       </div>
     </div>
   </section>
@@ -784,19 +797,32 @@
     }
 
     // ── CONTACT FORM ──
-    function sendBooking() {
-      const name = document.getElementById('f-name').value.trim();
+    const WEBHOOK_URL = 'https://primary-production-27f65.up.railway.app/webhook/contact-site';
+    async function sendBooking() {
+      const prenom   = document.getElementById('f-name').value.trim();
+      const email    = document.getElementById('f-email').value.trim();
       const activite = document.getElementById('f-activite').value;
-      const phone = document.getElementById('f-phone').value.trim();
-      const message = document.getElementById('f-message').value.trim();
-      if (!name) { alert('Merci d\'entrer votre prénom.'); return; }
-      if (!activite) { alert('Merci de sélectionner votre activité.'); return; }
-      let body = 'Bonjour Mattys,\n\nJe souhaite réserver une démo LumAuto.\n\n';
-      body += 'Prénom : ' + name + '\nActivité : ' + activite + '\n';
-      if (phone) body += 'Téléphone : ' + phone + '\n';
-      if (message) body += '\nMon besoin :\n' + message + '\n';
-      body += '\nCordialement,\n' + name;
-      window.location.href = 'contact.html';
+      const phone    = document.getElementById('f-phone').value.trim();
+      const message  = document.getElementById('f-message').value.trim();
+      if (!prenom)   { alert("Merci d'entrer votre prénom."); return; }
+      if (!email)    { alert("Merci d'entrer votre email."); return; }
+      if (!activite) { alert("Merci de sélectionner votre activité."); return; }
+      const btn = document.getElementById('idx-submit-btn');
+      btn.disabled = true; btn.textContent = 'Envoi en cours…';
+      try {
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prenom, email, telephone: phone, activite, message })
+        });
+        if (res.ok) {
+          document.getElementById('idx-success').style.display = 'block';
+          document.getElementById('idx-error').style.display = 'none';
+          btn.style.display = 'none';
+        } else { throw new Error('non-ok'); }
+      } catch(e) {
+        document.getElementById('idx-error').style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Envoyer ma demande →';
+      }
     }
 
     // ── SMOOTH SCROLL ──
@@ -808,5 +834,41 @@
     });
   </script>
 
+  <script>
+    const CART_KEY = 'lumauto_cart';
+    function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch(e) { return {}; } }
+    function saveCart(c) { localStorage.setItem(CART_KEY, JSON.stringify(c)); }
+
+    function quickAdd(id, name, setup, monthly, btn) {
+      const cart = getCart();
+      if (cart[id]) {
+        delete cart[id];
+        btn.textContent = '🛒 Ajouter au panier';
+        btn.classList.remove('added');
+      } else {
+        cart[id] = { name, setup, monthly };
+        btn.textContent = '✅ Dans le panier';
+        btn.classList.add('added');
+      }
+      saveCart(cart);
+      updateNavBadge(cart);
+    }
+
+    function updateNavBadge(cart) {
+      const count = Object.keys(cart).length;
+      const badge = document.getElementById('nav-badge');
+      if (badge) { badge.textContent = count; badge.classList.toggle('visible', count > 0); }
+    }
+
+    (function initCart() {
+      const cart = getCart();
+      Object.keys(cart).forEach(id => {
+        const btn = document.getElementById('ab-' + id);
+        if (btn) { btn.textContent = '✅ Dans le panier'; btn.classList.add('added'); }
+      });
+      updateNavBadge(cart);
+    })();
+  </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                 

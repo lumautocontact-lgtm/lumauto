@@ -133,7 +133,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="agents.html" class="nav-agents">Nos agents IA</a></li>
-      <li><a href="tarifs.html">Tarifs</a></li>
+      <li><a href="tarifs.html">Abonnement</a></li>
       <li><a href="index.html#faq">FAQ</a></li>
       <li><a href="contact.html" class="nav-cta nav-current">Contact</a></li>
     </ul>
@@ -225,6 +225,12 @@
         </select>
       </div>
 
+      <!-- Sélection panier — pré-remplie automatiquement -->
+      <div class="form-group" id="selection-group" style="display:none;">
+        <label>Votre sélection 🛒</label>
+        <div id="selection-display" style="background:#f8f9fa;border:1.5px solid #e8eaf0;border-radius:10px;padding:12px 16px;font-size:0.82rem;color:#555;line-height:1.8;"></div>
+      </div>
+
       <div class="form-group">
         <label>Ce que vous voulez automatiser</label>
         <textarea id="f-message" placeholder="Ex : Je relance mes clients à la main pour les maintenances annuelles, ça me prend du temps…"></textarea>
@@ -263,16 +269,49 @@
     // ⚡ URL du webhook n8n WF5 — à remplacer par l'URL réelle
     const WEBHOOK_URL = 'https://primary-production-27f65.up.railway.app/webhook/contact-site';
 
-    async function sendContact() {
-      const prenom  = document.getElementById('f-name').value.trim();
-      const email   = document.getElementById('f-email').value.trim();
-      const phone   = document.getElementById('f-phone').value.trim();
-      const activite= document.getElementById('f-activite').value;
-      const message = document.getElementById('f-message').value.trim();
+    // ── Lire la sélection depuis sessionStorage ──
+    function loadCheckout() {
+      try { return JSON.parse(sessionStorage.getItem('lumauto_checkout')) || null; }
+      catch(e) { return null; }
+    }
 
-      if (!prenom)  { alert('Merci d\'entrer votre prénom.'); return; }
-      if (!email)   { alert('Merci d\'entrer votre email.'); return; }
-      if (!activite){ alert('Merci de sélectionner votre activité.'); return; }
+    function buildSelectionText(co) {
+      if (!co) return '';
+      const lines = [];
+      if (co.plan) lines.push('Plan : ' + co.plan.name + ' (' + co.plan.price + '€/mois ' + co.plan.billing + ')');
+      if (co.cart) Object.values(co.cart).forEach(a => lines.push('Agent : ' + a.name + ' (' + a.setup + '€ + ' + a.monthly + '€/mois)'));
+      if (co.promo) lines.push('Code promo : ' + co.promo + ' (-10%)');
+      return lines.join('\n');
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      const co = loadCheckout();
+      if (co && (co.plan || (co.cart && Object.keys(co.cart).length > 0))) {
+        const grp = document.getElementById('selection-group');
+        const disp = document.getElementById('selection-display');
+        if (grp && disp) {
+          grp.style.display = 'block';
+          const lines = [];
+          if (co.plan) lines.push('<strong>📦 Plan ' + co.plan.name + '</strong> — ' + co.plan.price + '€/mois (' + co.plan.billing + ')');
+          if (co.cart) Object.values(co.cart).forEach(a => lines.push('🤖 ' + a.name + ' — ' + a.setup + '€ install. +' + a.monthly + '€/mois'));
+          if (co.promo) lines.push('🏷️ Code <strong>' + co.promo + '</strong> appliqué (-10%)');
+          disp.innerHTML = lines.join('<br>');
+        }
+      }
+    });
+
+    async function sendContact() {
+      const prenom   = document.getElementById('f-name').value.trim();
+      const email    = document.getElementById('f-email').value.trim();
+      const phone    = document.getElementById('f-phone').value.trim();
+      const activite = document.getElementById('f-activite').value;
+      const message  = document.getElementById('f-message').value.trim();
+
+      if (!prenom)   { alert("Merci d'entrer votre prénom."); return; }
+      if (!email)    { alert("Merci d'entrer votre email."); return; }
+      if (!activite) { alert("Merci de sélectionner votre activité."); return; }
+
+      const co = loadCheckout();
 
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
@@ -282,16 +321,23 @@
         const res = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prenom, email, telephone: phone, activite, message })
+          body: JSON.stringify({
+            prenom, email, telephone: phone, activite, message,
+            selection: buildSelectionText(co),
+            plan:      co && co.plan  ? co.plan.name + ' (' + co.plan.billing + ' - ' + co.plan.price + '€/mois)' : '',
+            agents:    co && co.cart  ? Object.values(co.cart).map(a => a.name).join(', ') : '',
+            code_promo: co && co.promo ? co.promo : ''
+          })
         });
-
         if (res.ok) {
           document.getElementById('success-msg').style.display = 'block';
           document.getElementById('error-msg').style.display = 'none';
           btn.style.display = 'none';
-        } else {
-          throw new Error('Réponse non-ok');
-        }
+          sessionStorage.removeItem('lumauto_checkout');
+          localStorage.removeItem('lumauto_cart');
+          localStorage.removeItem('lumauto_plan');
+          localStorage.removeItem('lumauto_promo');
+        } else { throw new Error('non-ok'); }
       } catch(e) {
         document.getElementById('error-msg').style.display = 'block';
         btn.disabled = false;
@@ -299,6 +345,5 @@
       }
     }
   </script>
-
 </body>
 </html>
