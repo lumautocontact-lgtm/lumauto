@@ -343,7 +343,7 @@
       <li><a href="agents.html" class="nav-agents">Nos agents IA</a></li>
       <li><a href="tarifs.html">Tarifs</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="#contact" class="nav-cta">Réserver une démo</a></li>
+      <li><a href="contact.html" class="nav-cta">Réserver une démo</a></li>
     </ul>
   </nav>
 
@@ -357,7 +357,7 @@
     <h1>Arrêtez de perdre<br>du temps sur <span>l'administratif</span></h1>
     <p>Relances, rappels maintenance, saisie de factures — tout se fait automatiquement. Vous vous concentrez sur votre métier.</p>
     <div class="hero-btns">
-      <a href="#contact" class="cta-btn">Réserver une démo gratuite →</a>
+      <a href="contact.html" class="cta-btn">Réserver une démo gratuite →</a>
       <a href="agents.html" class="cta-btn-ghost">Voir les agents IA</a>
     </div>
     <div class="hero-stats">
@@ -480,7 +480,7 @@
       </div>
       <div class="demo-cta">
         <p>Curieux de voir concrètement ce que ça donne pour votre activité ?</p>
-        <a href="#contact" class="cta-btn" style="margin-top:0">Voir une démo gratuite →</a>
+        <a href="contact.html" class="cta-btn" style="margin-top:0">Voir une démo gratuite →</a>
       </div>
     </div>
   </section>
@@ -594,7 +594,7 @@
       </div>
       <div class="temoignage-cta">
         <p>Vous aussi, récupérez vos soirées et vos week-ends.</p>
-        <a href="#contact" class="cta-btn" style="margin-top:0">Réserver ma démo gratuite →</a>
+        <a href="contact.html" class="cta-btn" style="margin-top:0">Réserver ma démo gratuite →</a>
       </div>
     </div>
   </section>
@@ -654,7 +654,7 @@
           <div class="contact-info-item"><span class="icon">💬</span><span>Sans jargon technique</span></div>
           <div class="contact-info-item"><span class="icon">✉️</span><span>lumauto.contact@gmail.com</span></div>
           <br>
-          <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20de%20d%C3%A9mo%20LumAuto&body=Bonjour%2C%0A%0AJe%20souhaite%20en%20savoir%20plus%20sur%20LumAuto%20et%20voir%20une%20d%C3%A9mo." target="_blank" class="contact-btn">Envoyer un email directement</a>
+          <a href="contact.html" target="_blank" class="contact-btn">Envoyer un email directement</a>
         </div>
         <div class="booking-form">
           <h3>📅 Demande de rendez-vous</h3>
@@ -690,7 +690,7 @@
   </section>
 
   <footer>
-    © 2026 LumAuto — Automatisations pour artisans &nbsp;·&nbsp; <a href="agents.html" style="color:rgba(255,255,255,0.4);text-decoration:none">Nos agents IA</a>
+    © 2026 LumAuto — Automatisations pour artisans &nbsp;·&nbsp; <a href="agents.html" style="color:rgba(255,255,255,0.4);text-decoration:none">Agents IA</a> &nbsp;·&nbsp; <a href="tarifs.html" style="color:rgba(255,255,255,0.4);text-decoration:none">Tarifs</a> &nbsp;·&nbsp; <a href="contact.html" style="color:rgba(255,255,255,0.4);text-decoration:none">Contact</a>
   </footer>
 
   <script>
@@ -761,8 +761,7 @@
       let body = 'Bonjour Mattys,\n\nJe souhaite commander la configuration suivante :\n\n';
       selectedAgents.forEach(id => { body += '• ' + agentPrices[id].name + '\n'; });
       body += '\nPouvez-vous me contacter pour organiser la démo ?\n\nCordialement,';
-      const url = 'https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=' + encodeURIComponent('Commande personnalisée — LumAuto') + '&body=' + encodeURIComponent(body);
-      window.open(url, '_blank');
+      window.location.href = 'contact.html';
     }
 
     // ── ABONNEMENTS ANNUAL TOGGLE ──
@@ -798,7 +797,7 @@
       if (phone) body += 'Téléphone : ' + phone + '\n';
       if (message) body += '\nMon besoin :\n' + message + '\n';
       body += '\nCordialement,\n' + name;
-      window.open('https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=' + encodeURIComponent('Demande de démo LumAuto — ' + name) + '&body=' + encodeURIComponent(body), '_blank');
+      window.location.href = 'contact.html';
     }
 
     // ── SMOOTH SCROLL ──

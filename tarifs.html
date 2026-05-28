@@ -209,7 +209,7 @@
       <li><a href="agents.html" class="nav-agents">Nos agents IA</a></li>
       <li><a href="tarifs.html" class="nav-current">Tarifs</a></li>
       <li><a href="index.html#faq">FAQ</a></li>
-      <li><a href="index.html#contact" class="nav-cta">Réserver une démo</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
     </ul>
   </nav>
 
@@ -319,7 +319,7 @@
             <li>Hébergement 24h/24, 7j/7</li>
             <li>Installation et configuration incluses</li>
           </ul>
-          <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Commande%20Pack%20Admin%20Auto%20%E2%80%94%20LumAuto&body=Bonjour%20Mattys%2C%0A%0AJe%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20Pack%20Admin%20Auto%20(200%E2%82%AC%20installation%20%2B%2050%E2%82%AC%2Fmois).%0A%0APouvez-vous%20me%20contacter%20pour%20organiser%20une%20d%C3%A9mo%20%3F%0A%0ACordialement%2C" target="_blank" class="order-btn">Commander ce pack</a>
+          <a href="contact.html" target="_blank" class="order-btn">Commander ce pack</a>
         </div>
 
         <div class="pricing-card soon">
@@ -339,7 +339,7 @@
             <li>Relance automatique si pas de réponse</li>
             <li>Hébergement 24h/24, 7j/7</li>
           </ul>
-          <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Int%C3%A9r%C3%AAt%20Pack%20Devis%20Auto%20%E2%80%94%20LumAuto" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
+          <a href="contact.html" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
         </div>
 
         <div class="pricing-card soon">
@@ -361,7 +361,7 @@
             <li>Hébergement 24h/24, 7j/7</li>
             <li>Priorité sur les nouvelles fonctions</li>
           </ul>
-          <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Int%C3%A9r%C3%AAt%20Pack%20Complet%20%E2%80%94%20LumAuto" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
+          <a href="contact.html" target="_blank" class="order-btn-soon">Me prévenir à la sortie</a>
         </div>
 
       </div>
@@ -373,7 +373,7 @@
       <div class="perso-section">
         <h3>Aucun pack ne vous correspond ?</h3>
         <p>Chaque artisan a ses contraintes. Si vous avez un besoin précis, je construis une automatisation sur mesure pour votre activité — au même tarif.</p>
-        <a href="https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=Demande%20sur%20mesure%20%E2%80%94%20LumAuto&body=Bonjour%20Mattys%2C%0A%0AJe%20souhaite%20une%20automatisation%20personnalis%C3%A9e.%0A%0AVoici%20mon%20besoin%20%3A%0A%0ACordialement%2C" target="_blank" class="perso-btn">Discuter d'un projet sur mesure</a>
+        <a href="contact.html" target="_blank" class="perso-btn">Discuter d'un projet sur mesure</a>
       </div>
 
     </div>
@@ -459,7 +459,7 @@
   </section>
 
   <footer>
-    <p>© 2026 LumAuto — <a href="index.html">Accueil</a> · <a href="agents.html">Agents IA</a> · <a href="mailto:lumauto.contact@gmail.com">lumauto.contact@gmail.com</a></p>
+    <p>© 2026 LumAuto — <a href="index.html">Accueil</a> · <a href="agents.html">Agents IA</a> · <a href="contact.html">Contact</a> · <a href="mailto:lumauto.contact@gmail.com">lumauto.contact@gmail.com</a></p>
   </footer>
 
   <script>
@@ -515,8 +515,7 @@
       let body = 'Bonjour Mattys,\n\nJe souhaite commander la configuration suivante :\n\n';
       selectedAgents.forEach(id => { body += '• ' + agentPrices[id].name + '\n'; });
       body += '\nPouvez-vous me contacter pour organiser la démo ?\n\nCordialement,';
-      const url = 'https://mail.google.com/mail/?view=cm&to=lumauto.contact@gmail.com&su=' + encodeURIComponent('Commande personnalisée — LumAuto') + '&body=' + encodeURIComponent(body);
-      window.open(url, '_blank');
+      window.location.href = 'contact.html';
     }
 
     // ABONNEMENTS TOGGLE
